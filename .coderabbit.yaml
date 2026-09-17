@@ -45,6 +45,45 @@ reviews:
   in_progress_fortune: false
   abort_on_close: true
 
+  # Fran's standing engineering standards, applied to every reviewed file.
+  # Sourced from the global agent instructions (~/AGENTS.md) and the finish-pr
+  # pre-push self-review, so CodeRabbit checks what the agent already checks.
+  path_instructions:
+    - path: "**/*"
+      instructions: |-
+        These are review priorities, not style preferences. Flag a violation
+        only when you can point at the line and name the concrete consequence.
+
+        Reuse before bespoke - if the repo already has this, or a library
+        already in its dependencies does, name which one. Bespoke code that
+        duplicates an available solution is a defect.
+
+        One source of truth - the same constant, config value, or piece of
+        logic living in two or more places is a finding. Name every place.
+
+        Composable - small pieces with clear inputs and outputs, not one long
+        unrolled procedure the caller has to follow step by step.
+
+        No hacks - hardcoded values, magic numbers, special cases, or a
+        workaround where the codebase already has a proper mechanism.
+
+        Right-sized - flag speculative abstraction, config for a value that
+        never varies, and unused extension points as readily as you flag gaps.
+
+        Match neighbors - new code should read like the code around it.
+        Inconsistency with an established local pattern is a finding.
+
+        No extra files, comments, or docs - flag files and comments the change
+        did not need, and comments that restate what the code already says.
+
+        Tests pull their weight - flag tests that assert implementation
+        details, tests that would pass against a broken implementation, and
+        slow tests that verify nothing that matters.
+
+        UI copy - never accept helper text in an AI voice. A line explaining
+        the design's intent, justifying a decision, or adding reassurance is a
+        finding; help text must be literal and actionable, nothing more.
+
   # Generated and vendored output is never worth reviewing.
   path_filters:
     - "!**/dist/**"
