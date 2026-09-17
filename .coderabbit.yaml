@@ -80,10 +80,6 @@ reviews:
         details, tests that would pass against a broken implementation, and
         slow tests that verify nothing that matters.
 
-        UI copy - never accept helper text in an AI voice. A line explaining
-        the design's intent, justifying a decision, or adding reassurance is a
-        finding; help text must be literal and actionable, nothing more.
-
   # Generated and vendored output is never worth reviewing.
   path_filters:
     - "!**/dist/**"
