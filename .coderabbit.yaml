@@ -1,0 +1,126 @@
+# Central CodeRabbit configuration for all jfrader public repositories.
+#
+# This is the single source of truth for review behaviour. CodeRabbit applies it
+# automatically to every repository that has no .coderabbit.yaml of its own, so
+# individual repos stay clean.
+#
+# A repo that genuinely needs to differ adds its own .coderabbit.yaml beginning
+# with `inheritance: true`, so these settings still merge underneath it.
+#
+# Schema: https://coderabbit.ai/integrations/schema.v2.json
+
+language: en-US
+
+tone_instructions: >-
+  Be terse, concrete and literal. No praise, no preamble, no restating what the
+  code does. Report only defects, risks and real simplifications. Never flag
+  formatting, naming taste, or anything a formatter or linter already owns. For
+  each finding state what is wrong, why it matters, and the smallest fix.
+
+reviews:
+  # quiet | chill | assertive
+  profile: chill
+
+  # Advisory only: CI is the gate and CodeRabbit does not block merges.
+  request_changes_workflow: false
+
+  high_level_summary: true
+  high_level_summary_placeholder: "@coderabbitai summary"
+  review_status: true
+  collapse_walkthrough: true
+  changed_files_summary: true
+  sequence_diagrams: false
+  estimate_code_review_effort: true
+
+  # Read "Fixes GURI-N" / "Fixes #n" and check the change against the issue.
+  assess_linked_issues: true
+  related_issues: true
+  related_prs: true
+
+  # Linear is the tracker; GitHub label suggestions are noise here.
+  suggested_labels: false
+  auto_apply_labels: false
+
+  poem: false
+  in_progress_fortune: false
+  abort_on_close: true
+
+  # Generated and vendored output is never worth reviewing.
+  path_filters:
+    - "!**/dist/**"
+    - "!**/lib/**"
+    - "!**/build/**"
+    - "!**/out/**"
+    - "!**/.next/**"
+    - "!**/target/**"
+    - "!**/node_modules/**"
+    - "!**/vendor/**"
+    - "!**/*.min.js"
+    - "!**/*.map"
+    - "!**/*.lock"
+    - "!**/*.snap"
+    - "!**/package-lock.json"
+    - "!**/yarn.lock"
+    - "!**/pnpm-lock.yaml"
+    - "!**/Cargo.lock"
+    - "!**/graphify-out/**"
+    - "!**/.godot/**"
+    - "!**/assets/generated/**"
+
+  auto_review:
+    enabled: true
+    # One deliberate review per pull request, triggered from finish-pr. Repos
+    # under 10 stars are never auto-reviewed anyway, and a one-shot push leaves
+    # nothing for an incremental review to pick up.
+    auto_incremental_review: false
+    drafts: false
+    ignore_usernames:
+      - "dependabot[bot]"
+      - "renovate[bot]"
+    ignore_title_keywords:
+      - "WIP"
+      - "DO NOT MERGE"
+
+  tools:
+    # High-signal and safe everywhere: no per-repo configuration required.
+    gitleaks:
+      enabled: true
+    actionlint:
+      enabled: true
+    zizmor:
+      enabled: true
+    hadolint:
+      enabled: true
+    shellcheck:
+      enabled: true
+
+    # Language linters need per-repo config and default to style nits, which
+    # tone_instructions tells the reviewer to skip. Turn one on per repo with an
+    # inheriting .coderabbit.yaml where the config already exists - eslint in
+    # fivem-nui-react-lib, clippy in the Rust repos, ruff in aggps-studio.
+    eslint:
+      enabled: false
+    biome:
+      enabled: false
+    ruff:
+      enabled: false
+    clippy:
+      enabled: false
+    markdownlint:
+      enabled: false
+
+chat:
+  auto_reply: true
+  art: false
+
+knowledge_base:
+  # Auto-reads each repo's AGENTS.md, CLAUDE.md and .cursorrules.
+  code_guidelines:
+    enabled: true
+  # These repos are unrelated projects: keep learnings local, no cross-pollination.
+  learnings:
+    scope: local
+  issues:
+    scope: local
+  web_search:
+    enabled: true
