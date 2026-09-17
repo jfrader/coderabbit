@@ -12,10 +12,10 @@
 language: en-US
 
 tone_instructions: >-
-  Be terse, concrete and literal. No praise, no preamble, no restating what the
-  code does. Report only defects, risks and real simplifications. Never flag
-  formatting, naming taste, or anything a formatter or linter already owns. For
-  each finding state what is wrong, why it matters, and the smallest fix.
+  Terse, concrete, literal. No praise, no preamble, no restating the code.
+  Report only defects, risks and real simplifications. Never flag formatting,
+  naming taste, or what a linter owns. State what is wrong, why it matters, and
+  the smallest fix.
 
 reviews:
   # quiet | chill | assertive
